@@ -69,8 +69,13 @@ def api_ids_rating():
     else:
         return 'ERROR: field orig_rating is required.'
 
-    if orig_rating in ['AAA+','AAA','AAA-']:
+    if orig_rating in ['AAA']:
         stan_rating = 'AAA'
+    else if orig_rating in ['AA+','AA','AA-']:
+        stan_rating = 'AA'
+    else if orig_rating in ['A+','A','A-']:
+        stan_rating = 'A'
+       /* TBD: to be done */
     else:
         stan_rating = '#ND'
 
