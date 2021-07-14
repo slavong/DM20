@@ -70,15 +70,20 @@ def api_ids_rating():
         return 'ERROR: field orig_rating is required.'
 
     if orig_rating in ['AAA']:
+        rule = 1
         stan_rating = 'AAA'
     else if orig_rating in ['AA+','AA','AA-']:
+        rule = 2
         stan_rating = 'AA'
     else if orig_rating in ['A+','A','A-']:
+        rule = 3
         stan_rating = 'A'
        /* TBD: to be done */
     else:
         stan_rating = '#ND'
 
-    return jsonify({'orig_rating': orig_rating, 'stan_rating': stan_rating})
+    return jsonify({'orig_rating': orig_rating, 
+                    'rule': rule,
+                    'stan_rating': stan_rating})
 
 app.run()
