@@ -82,8 +82,8 @@ def api_ids_rating():
     else:
         stan_rating = '#ND'
 
-    return jsonify({'orig_rating': orig_rating, 
-                    'rule': rule,
-                    'stan_rating': stan_rating})
+    return jsonify({'input': {'orig_rating': orig_rating}, 
+                    'audit': {'rule': rule, 'version': 1, 'timestamp': datetime.now()},
+                    'output': {'stan_rating': stan_rating}})
 
 app.run()
