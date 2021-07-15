@@ -18,20 +18,32 @@ def home():
 '''
 
 
+def reply(input, audit, output=None):
+    return jsonify({'input': input, 'audit': audit, 'output': output})
+
+
+def error(audit, error_no, error_msg):
+    ret = dict(audit)
+    ret['status'] = 'ERROR'
+    ret['error_no'] = error_no
+    ret['error_msg'] = error_msg
+    return ret
+
+
 @app.route('/api/v1/ids/rating', methods=['GET'])
 def api_ids_rating():
     version = 1
     ts = dt.datetime.now()
+    audit = {'version': version, 'timestamp': ts}
     input = {}
+    #
     if 'orig_rating' in request.args:
         orig_rating = request.args['orig_rating']
     else:
-        status = 'ERROR'
-        error = 'Field orig_rating is required.'
-        return jsonify({'input': {},
-                        'audit': {'status': status, 'version': version, 'timestamp': ts,
-                                  'error': error}})
+        audit = error(audit, 1, 'Field orig_rating is required.')
+        return reply(input, audit)
     input['orig_rating'] = orig_rating
+    #
     rule = None
     #
     if orig_rating in ['AAA']:
@@ -48,15 +60,11 @@ def api_ids_rating():
         rule = 99
         stan_rating = '#ND'
     status = 'OK'
-    output = {}
-    output['stan_rating'] = stan_rating
+    output = {'stan_rating': stan_rating}
     #
-    audit = {'rule': rule,
-             'version': version,
-             'timestamp': ts,
-             'status': status}
+    audit = {'rule': rule, 'version': version, 'timestamp': ts, 'status': status}
     #
-    return jsonify({'input': input, 'audit': audit, 'output': output})
+    return reply(input, audit, output)
 
 
 app.run()
