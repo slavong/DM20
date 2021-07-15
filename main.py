@@ -5,8 +5,10 @@ import flask
 from flask import request, jsonify
 import datetime as dt
 
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+
 
 # Create some test data for our catalog in the form of a list of dictionaries.
 @app.route('/', methods=['GET'])
@@ -66,5 +68,5 @@ def api_ids_rating():
     #
     return reply(input, audit, output)
 
-
-app.run()
+if __name__ == '__main__':
+    app.run()
