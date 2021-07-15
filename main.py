@@ -22,14 +22,18 @@ def home():
 def api_ids_rating():
     version = 1
     ts = dt.datetime.now()
+    input = {}
     if 'orig_rating' in request.args:
         orig_rating = request.args['orig_rating']
     else:
+        status = 'ERROR'
+        error = 'Field orig_rating is required.'
         return jsonify({'input': {},
-                        'audit': {'status': 'ERROR', 'version': version, 'timestamp': ts,
-                                  'error': 'Field orig_rating is required.'}})
+                        'audit': {'status': status, 'version': version, 'timestamp': ts,
+                                  'error': error}})
+    input['orig_rating'] = orig_rating
     rule = None
-
+    #
     if orig_rating in ['AAA']:
         rule = 1
         stan_rating = 'AAA'
@@ -41,11 +45,18 @@ def api_ids_rating():
         stan_rating = 'A'
     # TBD: to be done
     else:
+        rule = 99
         stan_rating = '#ND'
     status = 'OK'
+    output = {}
+    output['stan_rating'] = stan_rating
+    #
+    audit = {'rule': rule,
+             'version': version,
+             'timestamp': ts,
+             'status': status}
+    #
+    return jsonify({'input': input, 'audit': audit, 'output': output})
 
-    return jsonify({'input': {'orig_rating': orig_rating}, 
-                    'audit': {'rule': rule, 'version': version, 'timestamp': ts, 'status': status},
-                    'output': {'stan_rating': stan_rating}})
 
 app.run()
