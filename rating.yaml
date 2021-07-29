@@ -13,3 +13,8 @@ rules:
       rating: AA-
     output:
       rating: AA
+  - rule-id: 3
+    input:
+      rating: AA
+    output:
+      rating: AA
