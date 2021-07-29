@@ -1,0 +1,15 @@
+id: 42
+name: Rating
+description: standardisation of rating
+author: John Doe
+rules:
+  - rule-id: 1
+    input:
+      rating: AA+
+    output:
+      rating: AA
+  - rule-id: 2
+    input:
+      rating: AA-
+    output:
+      rating: AA
